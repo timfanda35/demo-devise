@@ -8,18 +8,39 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body>
-    <div>
-      <% if user_signed_in? %>
-        <span><%= current_user.email %></span>
-        <%= link_to "Sign Out", destroy_user_session_path, data: {turbo_method: :delete }%>
-      <% else %>
-        <%= link_to "Sign In", new_user_session_path %>
-      <% end %>
-    </div>
+    <header>
+      <nav class="bg-gray-800">
+        <div class="flex h-16 items-center justify-end gap-3">
+          <%= link_to "Posts",
+                      posts_path,
+                      class: "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" %>
+          <% if user_signed_in? %>
+            <span class="text-gray-300 px-3 py-2 text-sm font-medium">
+              <%= current_user.email %>
+            </span>
+            <%= link_to "Sign Out",
+                        destroy_user_session_path,
+                        data: {turbo_method: :delete },
+                        class: "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" %>
+          <% else %>
+            <%= link_to "Sign In",
+                        new_user_session_path,
+                        class: "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" %>
+          <% end %>
+        <div>
+      </nav>
+    </header>
 
-    <%= yield %>
+    <%- if controller_name != 'sessions' && controller_name != 'registrations' %>
+      <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <% else %>
+      <main>
+    <% end %>
+      <%= yield %>
+    </main>
   </body>
 </html>
