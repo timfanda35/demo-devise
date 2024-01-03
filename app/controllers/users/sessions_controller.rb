@@ -9,9 +9,11 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super do |resource|
+      Rails.logger.warn "\n\nUser ##{resource.id} has signed in from #{request.remote_ip}\n\n"
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy
